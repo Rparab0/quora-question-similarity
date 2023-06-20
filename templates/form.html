@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentence Similarity</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url("https://qsf.fs.quoracdn.net/-4-ans_frontend_assets.images.static_about_page.light_mode.AboutPage_LM.png-26-bc733716fefd249a.png");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            background-color: rgba(111, 104, 104, 0.8); /* Semi-transparent red background */
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            background-color: rgba(13, 13, 13, 0.884); /* Semi-transparent white background for input fields */
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            color: #fff;
+            backdrop-filter: blur(5px); /* Apply a blur effect */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+        }
+
+        #result {
+            margin-top: 30px;
+            display: none;
+        }
+        .color {
+            color: red;
+        }
+
+        #similarity-score {
+            font-size: 24px;
+            text-align: center;
+        }
+        .footer {
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+   
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> <span class="color"> Quora </span> Sentence Similarity</h1>
+        <form id="similarity-form" action="/predict" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter first sentence">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter second sentence">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Calculate Similarity</button>
+        </form>
+        <div id="result">
+            <p id="similarity-score"></p>
+        </div>
+        <footer class="footer">
+            <p> &copy; 2023 <span class="color"> Quora</span> Question similarity. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#similarity-form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: '/predict',
+                    data: formData,
+                    success: function(data) {
+                        $('#result').show();
+                        $('#similarity-score').text(data);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
